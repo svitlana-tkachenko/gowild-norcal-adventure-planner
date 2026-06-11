@@ -1,4 +1,4 @@
-# WildLight Adventure Planner
+# GoWild NorCal Adventure Planner
 
 A California nature trip recommender built in Python.
 
