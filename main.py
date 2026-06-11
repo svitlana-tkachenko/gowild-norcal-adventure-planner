@@ -4,12 +4,20 @@ from utils import format_result
 from card import show_cards
 
 
+def ask_choice(prompt, valid_choices):
+    while True:
+        choice = input(prompt).strip()
+        if choice in valid_choices:
+            return choice
+        print("Invalid choice. Please try again.")
+
+
 def ask_origin():
     print("Where are you starting from?")
     print("1. San Jose")
     print("2. San Francisco")
-    choice = input("Your choice (1/2): ").strip()
-    return {"1": "San Jose", "2": "San Francisco"}.get(choice, "San Jose")
+    choice = ask_choice("Your choice (1/2): ", ["1", "2"])
+    return {"1": "San Jose", "2": "San Francisco"}[choice]
 
 
 def ask_time():
@@ -17,8 +25,8 @@ def ask_time():
     print("1. Up to 1 hour")
     print("2. Up to 1.5 hours")
     print("3. Up to 2.5 hours")
-    choice = input("Your choice (1/2/3): ").strip()
-    return {"1": 60, "2": 90, "3": 150}.get(choice, 90)
+    choice = ask_choice("Your choice (1/2/3): ", ["1", "2", "3"])
+    return {"1": 60, "2": 90, "3": 150}[choice]
 
 
 def ask_mode():
@@ -27,8 +35,8 @@ def ask_mode():
     print("2. Sunset / golden hour")
     print("3. Night")
     print("4. Stargazing")
-    choice = input("Your choice (1/2/3/4): ").strip()
-    return {"1": "day", "2": "sunset", "3": "night", "4": "stargazing"}.get(choice, "day")
+    choice = ask_choice("Your choice (1/2/3/4): ", ["1", "2", "3", "4"])
+    return {"1": "day", "2": "sunset", "3": "night", "4": "stargazing"}[choice]
 
 
 def ask_stargazing_goal():
@@ -36,8 +44,8 @@ def ask_stargazing_goal():
     print("1. Easy viewpoint — quick and accessible")
     print("2. Real dark sky — away from city lights")
     print("3. Astrophotography — best photo conditions")
-    choice = input("Your choice (1/2/3): ").strip()
-    return {"1": "easy", "2": "medium", "3": "hard"}.get(choice, "medium")
+    choice = ask_choice("Your choice (1/2/3): ", ["1", "2", "3"])
+    return {"1": "easy", "2": "medium", "3": "hard"}[choice]
 
 
 def ask_vibes():
@@ -49,9 +57,12 @@ def ask_vibes():
     ]
     for i, v in enumerate(options, 1):
         print(f"{i}. {v}")
-    choices = input("Your choices: ").strip().split()
-    vibes = [options[int(c) - 1] for c in choices if c.isdigit() and 1 <= int(c) <= len(options)]
-    return vibes if vibes else ["views"]
+    while True:
+        choices = input("Your choices: ").strip().split()
+        vibes = [options[int(c) - 1] for c in choices if c.isdigit() and 1 <= int(c) <= len(options)]
+        if vibes:
+            return vibes
+        print("Invalid choice. Please enter one or more numbers from the list.")
 
 
 def ask_difficulty():
@@ -59,8 +70,8 @@ def ask_difficulty():
     print("1. Easy")
     print("2. Medium")
     print("3. Hard")
-    choice = input("Your choice (1/2/3): ").strip()
-    return {"1": "easy", "2": "medium", "3": "hard"}.get(choice, "easy")
+    choice = ask_choice("Your choice (1/2/3): ", ["1", "2", "3"])
+    return {"1": "easy", "2": "medium", "3": "hard"}[choice]
 
 
 def main():
@@ -98,7 +109,6 @@ def main():
         print("\n   No matches found. Try adjusting your preferences.")
     else:
         show_cards(results, user_prefs)
-
         for place in results:
             print(format_result(place, user_prefs["origin"], user_prefs["mode"]))
 
