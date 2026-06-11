@@ -1,86 +1,26 @@
-from tkinter import Canvas, Tk
-import time
+from graphics import Canvas
 
-# ── Themes ──────────────────────────────────────────────────────────────────
+CANVAS_WIDTH = 700
+CANVAS_HEIGHT = 850
+
 THEMES = {
-    "day":       {"bg": "#d6eaf8", "banner": "#2e86c1", "text": "#1a252f", "accent": "#27ae60", "card": "#eaf4fb"},
-    "sunset":    {"bg": "#f9e4b7", "banner": "#c0392b", "text": "#1a252f", "accent": "#e67e22", "card": "#fef5e4"},
-    "night":     {"bg": "#1a1a2e", "banner": "#16213e", "text": "#e0e0e0", "accent": "#a29bfe", "card": "#16213e"},
-    "stargazing":{"bg": "#0d0d1a", "banner": "#1a1a3e", "text": "#e0e0e0", "accent": "#fdcb6e", "card": "#111128"},
+    "day": {
+        "bg": "#d6eaf8", "card": "#f4fbff", "banner": "#2e86c1",
+        "text": "#1a252f", "accent": "#27ae60", "icon": "#f4d03f"
+    },
+    "sunset": {
+        "bg": "#f9d6a3", "card": "#fff3df", "banner": "#c0392b",
+        "text": "#1a252f", "accent": "#e67e22", "icon": "#f39c12"
+    },
+    "night": {
+        "bg": "#101728", "card": "#18213a", "banner": "#0b1020",
+        "text": "#f4f6ff", "accent": "#a29bfe", "icon": "#fdcb6e"
+    },
+    "stargazing": {
+        "bg": "#080817", "card": "#111128", "banner": "#1a1a3e",
+        "text": "#f4f6ff", "accent": "#fdcb6e", "icon": "#ffffff"
+    }
 }
-
-# ── Pixel icons ──────────────────────────────────────────────────────────────
-ICONS = {
-    "star": [
-        [0,0,1,0,0],
-        [1,1,1,1,1],
-        [0,1,1,1,0],
-        [1,1,1,1,1],
-        [0,0,1,0,0],
-    ],
-    "moon": [
-        [0,1,1,0,0],
-        [1,1,1,1,0],
-        [1,1,0,0,0],
-        [1,1,1,1,0],
-        [0,1,1,0,0],
-    ],
-    "sun": [
-        [0,1,0,1,0],
-        [1,1,1,1,1],
-        [0,1,1,1,0],
-        [1,1,1,1,1],
-        [0,1,0,1,0],
-    ],
-    "mountain": [
-        [0,0,1,0,0],
-        [0,1,1,1,0],
-        [1,1,0,1,1],
-        [1,1,0,1,1],
-        [1,1,1,1,1],
-    ],
-    "wave": [
-        [0,1,0,1,0],
-        [1,1,1,1,1],
-        [0,1,1,1,0],
-        [0,0,1,0,0],
-        [0,0,0,0,0],
-    ],
-    "tree": [
-        [0,0,1,0,0],
-        [0,1,1,1,0],
-        [1,1,1,1,1],
-        [0,0,1,0,0],
-        [0,0,1,0,0],
-    ],
-}
-
-MODE_ICONS = {
-    "day": "mountain",
-    "sunset": "sun",
-    "night": "moon",
-    "stargazing": "star",
-}
-
-VIBE_ICONS = {
-    "ocean": "wave",
-    "forest": "tree",
-    "hiking": "mountain",
-    "stargazing": "star",
-    "sunset": "sun",
-    "night": "moon",
-}
-
-
-def draw_pixel_icon(canvas, x, y, pattern, color, size=8):
-    for r, row in enumerate(pattern):
-        for c, cell in enumerate(row):
-            if cell:
-                canvas.create_rectangle(
-                    x + c * size, y + r * size,
-                    x + c * size + size, y + r * size + size,
-                    fill=color, outline=""
-                )
 
 
 def get_match_reasons(place, prefs):
@@ -91,139 +31,156 @@ def get_match_reasons(place, prefs):
     if prefs["mode"] == "stargazing" and place.get("stargazing"):
         reasons.append("dark sky access")
     if prefs["mode"] in place["modes"]:
-        reasons.append("perfect time match")
+        reasons.append("good time match")
     return reasons[:3]
 
 
-def draw_trip_card(canvas, place, prefs, index, total):
-    mode = prefs["mode"]
+def draw_pixel_star(canvas, x, y, color):
+    s = 6
+    canvas.create_rectangle(x + s, y, x + 2*s, y + s, color)
+    canvas.create_rectangle(x, y + s, x + 3*s, y + 2*s, color)
+    canvas.create_rectangle(x + s, y + 2*s, x + 2*s, y + 3*s, color)
+
+
+def draw_moon(canvas, x, y, color):
+    canvas.create_rectangle(x, y, x+12, y+12, color)
+    canvas.create_rectangle(x+12, y+12, x+24, y+24, color)
+    canvas.create_rectangle(x+12, y+24, x+24, y+36, color)
+    canvas.create_rectangle(x, y+36, x+12, y+48, color)
+
+
+def draw_sun(canvas, x, y, color):
+    canvas.create_rectangle(x, y, x+45, y+45, color)
+
+
+def draw_tree(canvas, x, y, color):
+    canvas.create_rectangle(x+18, y+45, x+30, y+75, "#6e3b1f")
+    canvas.create_rectangle(x, y+25, x+48, y+45, color)
+    canvas.create_rectangle(x+8, y+10, x+40, y+30, color)
+
+
+def draw_mountains(canvas, theme):
+    canvas.create_line(170, 350, 260, 275, theme["accent"])
+    canvas.create_line(260, 275, 350, 350, theme["accent"])
+    canvas.create_line(310, 350, 410, 285, theme["accent"])
+    canvas.create_line(410, 285, 540, 350, theme["accent"])
+    canvas.create_rectangle(90, 350, 610, 365, theme["accent"])
+
+
+def draw_background(canvas, theme):
+    canvas.create_rectangle(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT, theme["bg"])
+
+
+def draw_card_frame(canvas, theme):
+    canvas.create_rectangle(55, 55, 645, 795, theme["card"])
+    canvas.create_rectangle(55, 55, 645, 75, theme["accent"])
+    canvas.create_rectangle(55, 775, 645, 795, theme["accent"])
+    canvas.create_rectangle(55, 55, 75, 795, theme["accent"])
+    canvas.create_rectangle(625, 55, 645, 795, theme["accent"])
+
+
+def draw_header(canvas, place, theme):
+    canvas.create_rectangle(75, 80, 625, 150, theme["banner"])
+    canvas.create_text(350, 105, text="GOWILD NORCAL", font="Courier 18",
+                       color=theme["accent"], anchor="center")
+    canvas.create_text(350, 132, text="PIXEL TRIP CARD", font="Courier 13",
+                       color=theme["text"], anchor="center")
+    canvas.create_text(90, 185, text=place["name"].upper(), font="Courier 22",
+                       color=theme["text"], anchor="w")
+    canvas.create_text(90, 215, text=place["description"], font="Courier 12",
+                       color=theme["accent"], anchor="w")
+
+
+def draw_scene(canvas, mode, theme):
+    canvas.create_rectangle(90, 245, 610, 365, theme["banner"])
+    if mode in ["night", "stargazing"]:
+        draw_moon(canvas, 120, 270, theme["icon"])
+        draw_pixel_star(canvas, 230, 275, theme["icon"])
+        draw_pixel_star(canvas, 360, 295, theme["icon"])
+        draw_pixel_star(canvas, 500, 270, theme["icon"])
+    else:
+        draw_sun(canvas, 120, 285, theme["icon"])
+        draw_tree(canvas, 500, 285, theme["accent"])
+    draw_mountains(canvas, theme)
+
+
+def draw_label_value(canvas, label, value, x, y, theme):
+    canvas.create_text(x, y, text=f"{label}:", font="Courier 13",
+                       color=theme["accent"], anchor="w")
+    canvas.create_text(x + 140, y, text=value, font="Courier 13",
+                       color=theme["text"], anchor="w")
+
+
+def draw_details(canvas, place, prefs, theme):
     origin = prefs["origin"]
-    t = THEMES.get(mode, THEMES["day"])
-    W, H = 540, 620
-
-    # Background
-    canvas.create_rectangle(0, 0, W, H, fill=t["bg"], outline="")
-
-    # Pixel border
-    bsize = 8
-    for i in range(0, W, bsize * 2):
-        canvas.create_rectangle(i, 0, i + bsize, bsize, fill=t["accent"], outline="")
-        canvas.create_rectangle(i, H - bsize, i + bsize, H, fill=t["accent"], outline="")
-    for i in range(0, H, bsize * 2):
-        canvas.create_rectangle(0, i, bsize, i + bsize, fill=t["accent"], outline="")
-        canvas.create_rectangle(W - bsize, i, W, i + bsize, fill=t["accent"], outline="")
-
-    # Card body
-    canvas.create_rectangle(20, 20, W - 20, H - 20, fill=t["card"], outline=t["accent"], width=2)
-
-    # Header banner
-    canvas.create_rectangle(20, 20, W - 20, 70, fill=t["banner"], outline="")
-    canvas.create_text(W // 2, 45, text="GOWILD NORCAL  •  TRIP CARD",
-                       font=("Courier", 13, "bold"), fill=t["accent"], anchor="center")
-
-    # Pixel icon
-    icon_name = MODE_ICONS.get(mode, "mountain")
-    icon_pattern = ICONS[icon_name]
-    draw_pixel_icon(canvas, 36, 82, icon_pattern, t["accent"], size=9)
-
-    # Place name
-    canvas.create_text(110, 88, text=place["name"].upper(),
-                       font=("Courier", 17, "bold"), fill=t["text"], anchor="w")
-    canvas.create_text(110, 112, text=place["description"],
-                       font=("Courier", 10), fill=t["text"], anchor="w")
-
-    # Divider
-    canvas.create_line(36, 132, W - 36, 132, fill=t["accent"], width=2)
-
-    # Trip info
+    mode = prefs["mode"]
     drive = place["drive_minutes"][origin]
-    info = [
-        ("FROM",      origin.upper()),
-        ("DRIVE",     f"~{drive} MIN"),
-        ("MODE",      mode.upper()),
+    y = 410
+
+    for label, value in [
+        ("FROM", origin.upper()),
+        ("DRIVE", f"~{drive} MIN"),
+        ("MODE", mode.upper()),
         ("BEST TIME", place["best_time"].upper()),
-        ("WEATHER",   place["weather_note"]),
-    ]
-    y = 148
-    for label, value in info:
-        canvas.create_text(46, y, text=f"{label}:", font=("Courier", 10, "bold"),
-                           fill=t["accent"], anchor="w")
-        canvas.create_text(160, y, text=value, font=("Courier", 10),
-                           fill=t["text"], anchor="w")
-        y += 22
+        ("WEATHER", place["weather_note"]),
+    ]:
+        draw_label_value(canvas, label, value, 95, y, theme)
+        y += 38
 
-    # Divider
-    canvas.create_line(36, y + 4, W - 36, y + 4, fill=t["accent"], width=1)
-    y += 18
-
-    # Why it matches
-    canvas.create_text(46, y, text="WHY IT MATCHES",
-                       font=("Courier", 11, "bold"), fill=t["accent"], anchor="w")
     y += 20
+    canvas.create_text(95, y, text="WHY IT MATCHES", font="Courier 14",
+                       color=theme["accent"], anchor="w")
+    y += 30
     for reason in get_match_reasons(place, prefs):
-        canvas.create_text(60, y, text=f"•  {reason}",
-                           font=("Courier", 10), fill=t["text"], anchor="w")
-        y += 18
+        canvas.create_text(115, y, text=f"- {reason}", font="Courier 12",
+                           color=theme["text"], anchor="w")
+        y += 25
 
-    # Wildlife
+    y += 10
     if place.get("wildlife"):
-        y += 6
-        canvas.create_text(46, y, text="WILDLIFE",
-                           font=("Courier", 11, "bold"), fill=t["accent"], anchor="w")
-        y += 18
-        canvas.create_text(60, y, text=", ".join(place["wildlife"]),
-                           font=("Courier", 10), fill=t["text"], anchor="w")
-        y += 20
+        canvas.create_text(95, y, text="WILDLIFE", font="Courier 14",
+                           color=theme["accent"], anchor="w")
+        y += 25
+        canvas.create_text(115, y, text=", ".join(place["wildlife"][:4]),
+                           font="Courier 11", color=theme["text"], anchor="w")
+        y += 35
 
-    # Photo zones
     if place.get("photo_zones"):
-        canvas.create_text(46, y, text="PHOTO ZONES",
-                           font=("Courier", 11, "bold"), fill=t["accent"], anchor="w")
-        y += 18
-        canvas.create_text(60, y, text=", ".join(place["photo_zones"]),
-                           font=("Courier", 10), fill=t["text"], anchor="w")
-        y += 20
+        canvas.create_text(95, y, text="PHOTO ZONES", font="Courier 14",
+                           color=theme["accent"], anchor="w")
+        y += 25
+        canvas.create_text(115, y, text=", ".join(place["photo_zones"][:3]),
+                           font="Courier 11", color=theme["text"], anchor="w")
+        y += 35
 
-    # Sky note
     if place.get("sky_note"):
-        canvas.create_text(46, y, text="SKY",
-                           font=("Courier", 11, "bold"), fill=t["accent"], anchor="w")
-        y += 18
-        canvas.create_text(60, y, text=place["sky_note"],
-                           font=("Courier", 10), fill=t["text"], anchor="w")
-        y += 20
+        canvas.create_text(95, y, text="SKY NOTE", font="Courier 14",
+                           color=theme["accent"], anchor="w")
+        y += 25
+        canvas.create_text(115, y, text=place["sky_note"],
+                           font="Courier 10", color=theme["text"], anchor="w")
 
-    # Footer
-    canvas.create_rectangle(20, H - 50, W - 20, H - 20, fill=t["banner"], outline="")
-    canvas.create_text(W // 2, H - 42, text=f"CARD {index + 1} OF {total}   •   PRESS N FOR NEXT   •   Q TO QUIT",
-                       font=("Courier", 9), fill=t["accent"], anchor="center")
-    link = f"maps: {place['maps_query'].lower().replace(' ', '+')}"
-    canvas.create_text(W // 2, H - 26, text=link,
-                       font=("Courier", 8), fill=t["text"], anchor="center")
+
+def draw_footer(canvas, theme):
+    canvas.create_rectangle(75, 735, 625, 775, theme["banner"])
+    canvas.create_text(350, 755, text="GO OUTSIDE  •  TOUCH GRASS  •  TAKE PHOTOS",
+                       font="Courier 11", color=theme["accent"], anchor="center")
+
+
+def draw_trip_card(canvas, place, prefs):
+    mode = prefs["mode"]
+    theme = THEMES.get(mode, THEMES["day"])
+    draw_background(canvas, theme)
+    draw_card_frame(canvas, theme)
+    draw_header(canvas, place, theme)
+    draw_scene(canvas, mode, theme)
+    draw_details(canvas, place, prefs, theme)
+    draw_footer(canvas, theme)
 
 
 def show_cards(places, prefs):
-    state = {"index": 0}
-    W, H = 540, 620
-
-    root = Tk()
-    root.title("GoWild NorCal — Trip Card")
-    root.resizable(False, False)
-    canvas = Canvas(root, width=W, height=H)
-    canvas.pack()
-
-    def render():
-        canvas.delete("all")
-        draw_trip_card(canvas, places[state["index"]], prefs, state["index"], len(places))
-
-    def on_key(event):
-        key = event.keysym.lower()
-        if key == "n":
-            state["index"] = (state["index"] + 1) % len(places)
-            render()
-        elif key in ("q", "escape"):
-            root.destroy()
-
-    root.bind("<Key>", on_key)
-    render()
-    root.mainloop()
+    if not places:
+        return
+    canvas = Canvas(CANVAS_WIDTH, CANVAS_HEIGHT, "GoWild NorCal Trip Card")
+    draw_trip_card(canvas, places[0], prefs)
+    canvas.mainloop()
