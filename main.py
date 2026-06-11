@@ -55,7 +55,7 @@ def ask_difficulty():
 
 def main():
     print("=" * 50)
-    print("   WildLight Adventure Planner")
+    print("   GoWild NorCal Adventure Planner")
     print("   California nature trips, curated for you")
     print("=" * 50)
 
