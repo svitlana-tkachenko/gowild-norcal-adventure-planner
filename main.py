@@ -14,15 +14,11 @@ def ask_choice(prompt, valid_choices):
 
 
 def ask_origin():
-    # San Jose and SF cover most Bay Area users and have meaningfully
-    # different drive times to NorCal spots.
     print("Where are you starting from?")
     print("1. San Jose")
     print("2. San Francisco")
     choice = ask_choice("Your choice (1/2): ", ["1", "2"])
     return {"1": "San Jose", "2": "San Francisco"}[choice]
-
-
 
 
 def ask_time():
@@ -45,8 +41,7 @@ def ask_mode():
 
 
 def ask_stargazing_goal():
-    # Stargazing has its own question flow because dark sky quality
-    # matters more than hiking difficulty for night sky trips.
+    # Stargazing uses a simpler question flow.
     print("\nWhat's your stargazing goal?")
     print("1. Easy viewpoint — quick and accessible")
     print("2. Real dark sky — away from city lights")
@@ -100,8 +95,6 @@ def main():
     max_drive = ask_time()
 
     if mode == "stargazing":
-        # Stargazing gets its own question set — the hard filter
-        # already ensures only real dark sky spots show up.
         difficulty = ask_stargazing_goal()
         vibes = ["stargazing", "photography"]
     else:

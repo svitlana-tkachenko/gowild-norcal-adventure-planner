@@ -1,16 +1,15 @@
 def score_place(place, user_prefs):
     score = 0
 
-    # Give extra weight when the place matches several user interests.
+    # More matching interests means a better recommendation.
     for vibe in user_prefs["vibes"]:
         if vibe in place["vibes"]:
             score += 2
 
-    # Strong bonus when the place fits the trip mode (day/sunset/night/stargazing).
+    # Trip mode matters a lot — day trips and stargazing need different places.
     if user_prefs["mode"] in place["modes"]:
         score += 3
 
-    # Stargazing trips need stronger matching — dark sky places get extra weight.
     if user_prefs["mode"] == "stargazing" and place.get("stargazing"):
         score += 2
 
@@ -34,12 +33,11 @@ def get_recommendations(places, user_prefs):
         if origin not in place["drive_minutes"]:
             continue
 
-        # Drive time is a dealbreaker, not just a preference.
+        # Do not recommend places that are too far for the user.
         if place["drive_minutes"][origin] > user_prefs["max_drive"]:
             continue
 
-        # For stargazing, only show places with confirmed dark skies.
-        # "Okay at night" is not the same as a real stargazing spot.
+        # Stargazing mode should only show actual stargazing places.
         if user_prefs["mode"] == "stargazing" and not place.get("stargazing"):
             continue
 

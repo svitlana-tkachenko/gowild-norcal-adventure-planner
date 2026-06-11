@@ -1,35 +1,32 @@
 # GoWild NorCal Adventure Planner
 
-A California nature trip recommender built in Python for Stanford Code in Place 2026.
+This is my final project for Stanford Code in Place 2026.
 
-I built this because I actually needed it — I moved to the Bay Area and kept asking
-"where should we go this weekend?" This planner answers that question based on your
-mood, time, and interests.
+GoWild NorCal helps users choose a nature trip in Northern California based on their starting city, drive time, trip type, and interests.
 
 ## What it does
 
-Asks a few questions:
-- Starting city (San Jose or SF)
-- Drive time available
-- Trip mode: day / sunset / night / stargazing
-- Interests: hiking, ocean, wildlife, photography, etc.
-- Or: **Surprise me** — randomly picks an adventure goal using the `random` module
+The program asks for:
+- starting city
+- drive time
+- trip mode: day, sunset, night, or stargazing
+- interests like hiking, ocean, wildlife, photography, or forest
 
-Then recommends the top 3 matching NorCal destinations with:
-- Drive time and departure suggestion
-- Wildlife notes and photo zones
-- Weather info
-- Google Maps route link
-- A pixel-style **trip card** drawn with Stanford Canvas graphics
+Then it recommends the top 3 matching places and shows:
+- drive time and when to leave
+- best time to go
+- wildlife and photo notes
+- a Google Maps link
+- a pixel-style trip card drawn with Stanford Canvas
 
 ## How to run
 
-In Code in Place IDE (supports Stanford Canvas graphics):
+In Code in Place IDE:
 ```
 python main.py
 ```
 
-Locally (console output only):
+Locally (console only, no Canvas):
 ```
 python3 main.py
 ```
@@ -37,40 +34,28 @@ python3 main.py
 ## Project structure
 
 ```
-main.py         — user questions, input validation, surprise me mode
-data.py         — 10 NorCal places as a list of dictionaries
-recommender.py  — scoring logic, hard filters, top 3 selection
-utils.py        — maps link generator, console output formatter
-card.py         — Stanford Canvas pixel trip card
+main.py        — user input and program flow
+data.py        — 15 NorCal places as a list of dictionaries
+recommender.py — scoring and filtering logic
+utils.py       — output formatting and maps links
+card.py        — Stanford Canvas trip card
 ```
 
 ## Concepts used
 
-- Functions and decomposition across multiple files
-- Lists and dictionaries with nested data
-- Loops and conditionals
-- Input validation with while loops
-- `random` module for Surprise me mode
-- Stanford Canvas graphics for the trip card
-
-## Design decisions
-
-**Why only San Jose and SF:**
-These two cities cover most Bay Area users and have meaningfully different
-drive times to NorCal spots. More cities = more drive time research needed.
-
-**Why stargazing is a separate flow:**
-For night sky trips, dark sky quality matters more than hiking difficulty.
-Stargazing also uses a hard filter — only places with confirmed dark skies appear.
-
-**Why drive time is a hard filter, not just a scoring bonus:**
-If someone has 1 hour, showing a 3-hour drive as "second best" is just wrong.
+- input and print
+- if statements and while loops
+- for loops
+- functions
+- lists and dictionaries
+- random module (Surprise me mode)
+- Stanford Canvas graphics
 
 ## Future ideas
 
-- Save trip plan to a text file
-- Add more NorCal destinations (Yosemite, Lake Tahoe, Mono Lake)
-- Season-aware recommendations
+- save the trip plan to a file
+- add more places
+- add seasonal recommendations
 
 ## Built for
 
