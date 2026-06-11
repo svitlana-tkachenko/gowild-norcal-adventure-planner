@@ -173,3 +173,97 @@ PLACES = [
         "description": "Legendary Highway 1, Bixby Bridge, McWay Falls waterfall."
     },
 ]
+
+# Zone 2-3: longer drives, weekend trips
+EXTRA_PLACES = [
+    {
+        "name": "Yosemite National Park",
+        "maps_query": "Yosemite National Park",
+        "drive_minutes": {"San Jose": 210, "San Francisco": 180},
+        "zone": "2",
+        "trip_type": "weekend",
+        "vibes": ["hiking", "views", "photography", "forest"],
+        "modes": ["day", "sunset", "stargazing"],
+        "difficulty": "medium",
+        "best_time": "early morning",
+        "night_friendly": False,
+        "stargazing": True,
+        "photo_zones": ["Half Dome", "El Capitan", "Yosemite Falls", "Valley View"],
+        "wildlife": ["black bears", "deer", "eagles", "marmots"],
+        "weather_note": "Cold in winter. Crowded in summer — go early.",
+        "sky_note": "Excellent dark skies away from valley floor.",
+        "description": "Granite cliffs, waterfalls, and iconic valley views."
+    },
+    {
+        "name": "Lake Tahoe",
+        "maps_query": "Lake Tahoe California",
+        "drive_minutes": {"San Jose": 240, "San Francisco": 210},
+        "zone": "2",
+        "trip_type": "weekend",
+        "vibes": ["water", "views", "hiking", "photography"],
+        "modes": ["day", "sunset", "night"],
+        "difficulty": "easy",
+        "best_time": "morning",
+        "night_friendly": True,
+        "stargazing": False,
+        "photo_zones": ["Emerald Bay", "Sand Harbor", "Tahoe rim views"],
+        "wildlife": ["black bears", "deer", "osprey"],
+        "weather_note": "Snowy in winter. Busy in summer. Fall is ideal.",
+        "description": "Alpine lake with turquoise water, beaches, and mountain trails."
+    },
+    {
+        "name": "Sequoia & Kings Canyon",
+        "maps_query": "Sequoia National Park",
+        "drive_minutes": {"San Jose": 240, "San Francisco": 270},
+        "zone": "2",
+        "trip_type": "weekend",
+        "vibes": ["forest", "hiking", "photography", "views"],
+        "modes": ["day"],
+        "difficulty": "easy",
+        "best_time": "morning",
+        "night_friendly": False,
+        "stargazing": False,
+        "photo_zones": ["General Sherman Tree", "canyon views", "giant groves"],
+        "wildlife": ["black bears", "deer", "marmots"],
+        "weather_note": "Cool year round. Snow possible in winter.",
+        "description": "World's largest trees, canyons, and mountain rivers."
+    },
+    {
+        "name": "Mono Lake",
+        "maps_query": "Mono Lake Tufa State Natural Reserve",
+        "drive_minutes": {"San Jose": 300, "San Francisco": 330},
+        "zone": "3",
+        "trip_type": "weekend",
+        "vibes": ["photography", "views", "stargazing", "water"],
+        "modes": ["day", "sunset", "stargazing"],
+        "difficulty": "easy",
+        "best_time": "sunrise or golden hour",
+        "night_friendly": True,
+        "stargazing": True,
+        "photo_zones": ["tufa towers", "lake reflections", "eastern sierra views"],
+        "wildlife": ["brine shrimp", "migratory birds", "gulls"],
+        "weather_note": "High desert. Hot days, cold nights. Best in spring and fall.",
+        "sky_note": "Outstanding dark skies. One of the best stargazing spots in CA.",
+        "description": "Alien tufa towers, mirror lake, and extraordinary dark skies."
+    },
+    {
+        "name": "Mount Shasta",
+        "maps_query": "Mount Shasta California",
+        "drive_minutes": {"San Jose": 330, "San Francisco": 300},
+        "zone": "3",
+        "trip_type": "weekend",
+        "vibes": ["hiking", "views", "photography", "forest"],
+        "modes": ["day", "sunset", "stargazing"],
+        "difficulty": "hard",
+        "best_time": "early morning",
+        "night_friendly": True,
+        "stargazing": True,
+        "photo_zones": ["summit views", "glaciers", "Black Butte", "McCloud Falls"],
+        "wildlife": ["black bears", "eagles", "deer"],
+        "weather_note": "Snow year round above treeline. Unpredictable mountain weather.",
+        "sky_note": "Remote location with excellent dark skies.",
+        "description": "Snow-capped volcanic peak, waterfalls, and mystical mountain vibes."
+    },
+]
+
+PLACES = PLACES + EXTRA_PLACES

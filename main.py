@@ -23,13 +23,15 @@ def ask_origin():
     return {"1": "San Jose", "2": "San Francisco"}[choice]
 
 
+
+
 def ask_time():
     print("\nHow much time do you have for driving?")
-    print("1. Up to 1 hour")
-    print("2. Up to 1.5 hours")
-    print("3. Up to 2.5 hours")
+    print("1. Up to 1 hour  (local escape)")
+    print("2. Up to 2 hours (day trip)")
+    print("3. 3+ hours      (weekend adventure)")
     choice = ask_choice("Your choice (1/2/3): ", ["1", "2", "3"])
-    return {"1": 60, "2": 90, "3": 150}[choice]
+    return {"1": 60, "2": 120, "3": 360}[choice]
 
 
 def ask_mode():
