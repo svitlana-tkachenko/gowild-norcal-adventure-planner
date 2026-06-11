@@ -1,6 +1,7 @@
 from data import PLACES
 from recommender import get_recommendations
 from utils import format_result
+from card import show_cards
 
 
 def ask_origin():
@@ -96,6 +97,8 @@ def main():
     if not results:
         print("\n   No matches found. Try adjusting your preferences.")
     else:
+        show_cards(results, user_prefs)
+
         for place in results:
             print(format_result(place, user_prefs["origin"], user_prefs["mode"]))
 
