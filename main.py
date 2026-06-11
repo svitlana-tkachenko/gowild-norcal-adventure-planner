@@ -21,13 +21,22 @@ def ask_time():
 
 
 def ask_mode():
-    print("\nTrip mode?")
+    print("\nWhat kind of trip?")
     print("1. Day trip")
     print("2. Sunset / golden hour")
     print("3. Night")
     print("4. Stargazing")
     choice = input("Your choice (1/2/3/4): ").strip()
     return {"1": "day", "2": "sunset", "3": "night", "4": "stargazing"}.get(choice, "day")
+
+
+def ask_stargazing_goal():
+    print("\nWhat's your stargazing goal?")
+    print("1. Easy viewpoint — quick and accessible")
+    print("2. Real dark sky — away from city lights")
+    print("3. Astrophotography — best photo conditions")
+    choice = input("Your choice (1/2/3): ").strip()
+    return {"1": "easy", "2": "medium", "3": "hard"}.get(choice, "medium")
 
 
 def ask_vibes():
@@ -59,12 +68,23 @@ def main():
     print("   California nature trips, curated for you")
     print("=" * 50)
 
+    mode = ask_mode()
+    origin = ask_origin()
+    max_drive = ask_time()
+
+    if mode == "stargazing":
+        difficulty = ask_stargazing_goal()
+        vibes = ["stargazing", "photography"]
+    else:
+        vibes = ask_vibes()
+        difficulty = ask_difficulty()
+
     user_prefs = {
-        "origin": ask_origin(),
-        "max_drive": ask_time(),
-        "mode": ask_mode(),
-        "vibes": ask_vibes(),
-        "difficulty": ask_difficulty(),
+        "origin": origin,
+        "max_drive": max_drive,
+        "mode": mode,
+        "vibes": vibes,
+        "difficulty": difficulty,
     }
 
     results = get_recommendations(PLACES, user_prefs)
@@ -77,7 +97,7 @@ def main():
         print("\n   No matches found. Try adjusting your preferences.")
     else:
         for place in results:
-            print(format_result(place, user_prefs["origin"]))
+            print(format_result(place, user_prefs["origin"], user_prefs["mode"]))
 
     print("\n" + "=" * 50)
     print("   Go outside. Touch grass. Take photos.")

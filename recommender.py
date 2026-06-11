@@ -41,6 +41,10 @@ def get_recommendations(places, user_prefs):
         if place["drive_minutes"][origin] > user_prefs["max_drive"]:
             continue
 
+        # Hard filter: stargazing mode only shows stargazing places.
+        if user_prefs["mode"] == "stargazing" and not place.get("stargazing"):
+            continue
+
         score = score_place(place, user_prefs)
 
         # Skip places with no real match.
