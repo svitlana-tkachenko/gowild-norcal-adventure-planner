@@ -14,8 +14,8 @@ def ask_choice(prompt, valid_choices):
 
 
 def ask_origin():
-    # San Jose and SF cover most Bay Area users.
-    # Both are within reasonable driving distance of NorCal nature spots.
+    # San Jose and SF cover most Bay Area users and have meaningfully
+    # different drive times to NorCal spots.
     print("Where are you starting from?")
     print("1. San Jose")
     print("2. San Francisco")
@@ -43,8 +43,8 @@ def ask_mode():
 
 
 def ask_stargazing_goal():
-    # Stargazing has its own flow because the relevant factors are different:
-    # dark sky quality matters more than hiking difficulty.
+    # Stargazing has its own question flow because dark sky quality
+    # matters more than hiking difficulty for night sky trips.
     print("\nWhat's your stargazing goal?")
     print("1. Easy viewpoint — quick and accessible")
     print("2. Real dark sky — away from city lights")
@@ -66,7 +66,7 @@ def ask_vibes():
     while True:
         choices = input("Your choices: ").strip().split()
 
-        # Surprise me mode: randomly picks 2-3 vibes
+        # If the user feels flexible, pick a few random interests.
         if choices == ["0"]:
             selected = random.sample(options, random.randint(2, 3))
             print(f"\nSurprise! Your adventure goal: {', '.join(selected)}")
@@ -87,23 +87,6 @@ def ask_difficulty():
     return {"1": "easy", "2": "medium", "3": "hard"}[choice]
 
 
-def save_plan(results, prefs):
-    origin = prefs["origin"]
-    filename = "my_trip_plan.txt"
-    with open(filename, "w") as f:
-        f.write("GOWILD NORCAL — MY TRIP PLAN\n")
-        f.write("=" * 40 + "\n\n")
-        for i, place in enumerate(results, 1):
-            drive = place["drive_minutes"][origin]
-            f.write(f"{i}. {place['name']}\n")
-            f.write(f"   Drive: ~{drive} min from {origin}\n")
-            f.write(f"   Best time: {place['best_time']}\n")
-            f.write(f"   {place['description']}\n")
-            link = f"https://www.google.com/maps/dir/?api=1&origin={origin.replace(' ', '+')}&destination={place['maps_query'].replace(' ', '+')}\n"
-            f.write(f"   Map: {link}\n")
-    print(f"\nPlan saved to {filename}")
-
-
 def main():
     print("=" * 50)
     print("   GoWild NorCal Adventure Planner")
@@ -115,8 +98,8 @@ def main():
     max_drive = ask_time()
 
     if mode == "stargazing":
-        # Stargazing gets its own question set — no vibes needed,
-        # since the hard filter already ensures only stargazing spots show up.
+        # Stargazing gets its own question set — the hard filter
+        # already ensures only real dark sky spots show up.
         difficulty = ask_stargazing_goal()
         vibes = ["stargazing", "photography"]
     else:
@@ -143,11 +126,6 @@ def main():
         show_cards(results, user_prefs)
         for place in results:
             print(format_result(place, user_prefs["origin"], user_prefs["mode"]))
-
-        # Optional: save plan to file
-        save = input("\nSave your plan to a file? (y/n): ").strip().lower()
-        if save == "y":
-            save_plan(results, user_prefs)
 
     print("\n" + "=" * 50)
     print("   Go outside. Touch grass. Take photos.")
