@@ -181,6 +181,6 @@ def draw_trip_card(canvas, place, prefs):
 def show_cards(places, prefs):
     if not places:
         return
-    canvas = Canvas(CANVAS_WIDTH, CANVAS_HEIGHT, "GoWild NorCal Trip Card")
+    canvas = Canvas(CANVAS_WIDTH, CANVAS_HEIGHT)
     draw_trip_card(canvas, places[0], prefs)
     canvas.mainloop()
