@@ -5,20 +5,36 @@ CANVAS_HEIGHT = 850
 
 THEMES = {
     "day": {
-        "bg": "#d6eaf8", "card": "#f4fbff", "banner": "#2e86c1",
-        "text": "#1a252f", "accent": "#27ae60", "icon": "#f4d03f"
+        "bg": "lightblue",
+        "card": "white",
+        "banner": "blue",
+        "text": "black",
+        "accent": "green",
+        "icon": "yellow"
     },
     "sunset": {
-        "bg": "#f9d6a3", "card": "#fff3df", "banner": "#c0392b",
-        "text": "#1a252f", "accent": "#e67e22", "icon": "#f39c12"
+        "bg": "orange",
+        "card": "white",
+        "banner": "red",
+        "text": "black",
+        "accent": "brown",
+        "icon": "yellow"
     },
     "night": {
-        "bg": "#101728", "card": "#18213a", "banner": "#0b1020",
-        "text": "#f4f6ff", "accent": "#a29bfe", "icon": "#fdcb6e"
+        "bg": "black",
+        "card": "blue",
+        "banner": "black",
+        "text": "white",
+        "accent": "purple",
+        "icon": "yellow"
     },
     "stargazing": {
-        "bg": "#080817", "card": "#111128", "banner": "#1a1a3e",
-        "text": "#f4f6ff", "accent": "#fdcb6e", "icon": "#ffffff"
+        "bg": "black",
+        "card": "blue",
+        "banner": "purple",
+        "text": "white",
+        "accent": "yellow",
+        "icon": "white"
     }
 }
 
@@ -54,7 +70,7 @@ def draw_sun(canvas, x, y, color):
 
 
 def draw_tree(canvas, x, y, color):
-    canvas.create_rectangle(x+18, y+45, x+30, y+75, "#6e3b1f")
+    canvas.create_rectangle(x+18, y+45, x+30, y+75, "brown")
     canvas.create_rectangle(x, y+25, x+48, y+45, color)
     canvas.create_rectangle(x+8, y+10, x+40, y+30, color)
 
