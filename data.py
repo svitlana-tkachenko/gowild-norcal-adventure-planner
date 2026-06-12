@@ -172,10 +172,9 @@ PLACES = [
         "sky_note": "Excellent dark skies. One of the best spots near Bay Area.",
         "description": "Legendary Highway 1, Bixby Bridge, McWay Falls waterfall."
     },
-]
 
-# Zone 2-3: longer drives, weekend trips
-EXTRA_PLACES = [
+    # Longer weekend trips below
+
     {
         "name": "Yosemite National Park",
         "maps_query": "Yosemite National Park",
@@ -265,5 +264,3 @@ EXTRA_PLACES = [
         "description": "Snow-capped volcanic peak, waterfalls, and mystical mountain vibes."
     },
 ]
-
-PLACES = PLACES + EXTRA_PLACES

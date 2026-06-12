@@ -21,14 +21,10 @@ Then it recommends the top 3 matching places and shows:
 
 ## How to run
 
-In Code in Place IDE:
+This project is designed for the Code in Place IDE because it uses Stanford Canvas graphics.
+
 ```
 python main.py
-```
-
-Locally (console only, no Canvas):
-```
-python3 main.py
 ```
 
 ## Project structure
@@ -41,14 +37,13 @@ utils.py       — output formatting and maps links
 card.py        — Stanford Canvas trip card
 ```
 
-## Concepts used
+## Code in Place concepts I used
 
-- input and print
-- if statements and while loops
-- for loops
+- input, print, and variables
+- if statements and loops
 - functions
 - lists and dictionaries
-- random module (Surprise me mode)
+- random
 - Stanford Canvas graphics
 
 ## Future ideas
