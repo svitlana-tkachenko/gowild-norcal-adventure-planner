@@ -27,6 +27,12 @@ This project is designed for the Code in Place IDE because it uses Stanford Canv
 python main.py
 ```
 
+To run it locally, download Stanford's `graphics.py` file and put it in the same folder as this project. Then run:
+
+```
+python3 main.py
+```
+
 ## Project structure
 
 ```
