@@ -14,13 +14,13 @@ LINE = "lightgray"
 def get_match_reasons(place, prefs):
     reasons = []
     for vibe in prefs["vibes"]:
-        if vibe in place["vibes"]:
+        if vibe in place["vibes"] and len(reasons) < 3:
             reasons.append(vibe)
-    if prefs["mode"] == "stargazing" and place.get("stargazing"):
+    if prefs["mode"] == "stargazing" and place.get("stargazing") and len(reasons) < 3:
         reasons.append("dark sky")
-    if prefs["mode"] in place["modes"]:
+    if prefs["mode"] in place["modes"] and len(reasons) < 3:
         reasons.append("time match")
-    return reasons[:3]
+    return reasons
 
 
 def draw_text(canvas, x, y, text, size, color, anchor="w"):
@@ -62,14 +62,10 @@ def draw_trip_card(canvas, place, prefs):
 
     # Basic info block
     y = 315
-    info_fields = [
-        ("MODE",  mode.upper()),
-        ("DRIVE", f"~{place['drive_minutes'][origin]} MIN"),
-        ("FROM",  origin.upper()),
-        ("BEST",  place["best_time"].upper()),
-    ]
-    for title, val in info_fields:
-        y = draw_section(canvas, y, title, val)
+    y = draw_section(canvas, y, "MODE", mode.upper())
+    y = draw_section(canvas, y, "DRIVE", f"~{place['drive_minutes'][origin]} MIN")
+    y = draw_section(canvas, y, "FROM", origin.upper())
+    y = draw_section(canvas, y, "BEST", place["best_time"].upper())
 
     y += 20
     canvas.create_line(130, y, 570, y, LINE)
@@ -88,14 +84,14 @@ def draw_trip_card(canvas, place, prefs):
     if place.get("wildlife"):
         draw_text(canvas, 130, y, "WILDLIFE", 13, ACCENT)
         y += 28
-        draw_text(canvas, 150, y, ", ".join(place["wildlife"][:3]), 11, TEXT)
+        draw_text(canvas, 150, y, ", ".join(place["wildlife"]), 11, TEXT)
         y += 40
 
     # Photo spots
     if place.get("photo_zones"):
         draw_text(canvas, 130, y, "PHOTO SPOTS", 13, ACCENT)
         y += 28
-        draw_text(canvas, 150, y, ", ".join(place["photo_zones"][:3]), 11, TEXT)
+        draw_text(canvas, 150, y, ", ".join(place["photo_zones"]), 11, TEXT)
 
     # Footer
     canvas.create_line(130, 720, 570, 720, LINE)
